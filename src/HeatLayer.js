@@ -169,7 +169,9 @@ L.HeatLayer = (L.Layer ? L.Layer : L.Class).extend({
             }
         }
 
-        this._heat.max(this._max);
+        var transformer = this.options.transformer || function (x) { return x; };
+
+        this._heat.max(transformer(this._max));
 
         for (i = 0, len = grid.length; i < len; i++) {
             if (grid[i]) {
@@ -179,7 +181,7 @@ L.HeatLayer = (L.Layer ? L.Layer : L.Class).extend({
                         data.push([
                             Math.round(cell[0]),
                             Math.round(cell[1]),
-                            Math.min(cell[2], this._max)
+                            transformer(Math.min(cell[2], this._max))
                         ]);
                     }
                 }
